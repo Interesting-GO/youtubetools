@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dollarkillerx/easyutils"
+	"github.com/dollarkillerx/easyutils/clog"
 	"github.com/dollarkillerx/easyutils/httplib"
 	"io"
 	"io/ioutil"
@@ -164,8 +165,13 @@ func (y *Youtube) getVideoInfo() error {
 	} else {
 		resp, err = httplib.Get(url).SetUserAgent(easyutils.ReptileGetUserAgent()).Response()
 	}
-
+	if err != nil {
+		clog.Println(err)
+		return err
+	}
 	defer resp.Body.Close()
+
+
 	if resp.StatusCode != 200 {
 		return err
 	}
